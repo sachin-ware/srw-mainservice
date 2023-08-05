@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysqlcontainer
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      MYSQL_DATABASE: sachintestdb
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      
+  app:
+    image:  masterservice_docker_image
+    ports:
+      - 8085:8082
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqlcontainer:3306/sachintestdb?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USER_NAME: admin
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - db
+      
+ 
+   
